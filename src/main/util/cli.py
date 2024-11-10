@@ -2,6 +2,10 @@ import warnings
 
 import click
 
+from src.main import rag
+from src.main.util import git
+from src.test.runner import evaluate_all, evaluate_current
+
 
 @click.group(
     name="ws",
@@ -27,7 +31,7 @@ def hello():
 
 @ws.command(help="Run the RAG script")
 def run():
-    click.echo(f"You want to run the RAG script.")
+    rag.run()
 
 
 @ws.command(help="Run evaluations")
@@ -38,27 +42,35 @@ def run():
 )
 def evals(all: bool):
     if all:
-        click.echo(f"You want to run all evaluations.")
+        evaluate_all()
     else:
-        click.echo(f"You want to run some evaluations.")
+        evaluate_current()
 
 
 @ws.command(help="Print your current active version")
 def where():
-    click.echo(f"You want to know which version you're currently on.")
+    _print_version()
 
 
 @ws.command(help="Step to the next version")
 def next():
-    click.echo(f"You want to switch to the next version.")
+    git.goto_next()
+    _print_version()
 
 
 @ws.command(help="Step to the previous version")
 def prev():
-    click.echo(f"You want to switch to the previous version.")
+    git.goto_previous()
+    _print_version()
 
 
 @ws.command(help="Go to the version you specify")
 @click.argument("version", type=str, required=True)
 def goto(version: str):
-    click.echo(f"You want to switch to version {version}.")
+    git.goto(version)
+    _print_version()
+
+
+def _print_version():
+    commit_message = git.get_version()
+    click.echo(f"You are currently on version {commit_message}.")

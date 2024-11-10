@@ -277,6 +277,11 @@ You don't need to run these now, they are here for when you need them.
   ws goto VERSION
   ```
 
+- Clean up any changes you made to the repo:
+  ```shell
+  git reset --hard
+  ```
+
 #### Troubleshooting
 
 **Only if** the `ws` command gives you permission errors:
