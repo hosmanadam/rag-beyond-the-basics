@@ -1,0 +1,5 @@
+.idea
+.env
+poetry.lock
+.deepeval-cache.json
+temp_test_run_data.json
