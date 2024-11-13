@@ -2,9 +2,7 @@ import warnings
 
 import click
 
-from src.main import rag
 from src.main.util import git
-from src.test.runner import evaluate_all, evaluate_current
 
 
 @click.group(
@@ -31,20 +29,14 @@ def hello():
 
 @ws.command(help="Run the RAG script")
 def run():
-    rag.run()
+    click.echo(
+        "Running like this is not currently supported, please execute the python scripts from the repo root instead.")
 
 
-@ws.command(help="Run evaluations")
-@click.option(
-    "--all", type=bool, is_flag=True, default=False,
-    help="Whether to run all evaluations or only some",
-    show_default="Only run evaluations specific to the current version"
-)
-def evals(all: bool):
-    if all:
-        evaluate_all()
-    else:
-        evaluate_current()
+@ws.command(help="Run evaluations specific to the current version")
+def evals():
+    click.echo(
+        "Evaluating like this is not currently supported, please execute the python scripts from the repo root instead.")
 
 
 @ws.command(help="Print your current active version")

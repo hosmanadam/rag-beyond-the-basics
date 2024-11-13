@@ -235,60 +235,11 @@ Let's update our dependencies.
 
 ### 🐚 2.5 Workshop CLI
 
-We will use some easy-to-type helper commands to run things and do time-traveling in the repo.  
-You don't need to run these now, they are here for when you need them.
+You can run the apps & tests by simply calling the appropriate Python scripts in [./src/main](./src/main)
+and [./src/test](./src/test), while residing in the repo root, for example:
 
-#### For execution
-
-- Run the RAG script:
-  ```shell
-  ws run
-  ```
-
-- Run evaluations specific to the current version:
-  ```shell
-  ws evals
-  ```
-
-- Run all evaluations (you should rarely run this):
-  ```shell
-  ws evals --all
-  ```
-
-#### For navigation
-
-- Print your current active version:
-  ```shell
-  ws where
-  ```
-
-- Step to the next version:
-  ```shell
-  ws next
-  ```
-
-- Step to the previous version:
-  ```shell
-  ws prev
-  ```
-
-- Go to the version you specify:
-  ```shell
-  ws goto VERSION
-  ```
-
-- Clean up any changes you made to the repo:
-  ```shell
-  git reset --hard
-  ```
-
-#### Troubleshooting
-
-**Only if** the `ws` command gives you permission errors:
-
-1. If you used Poetry, try prepending the commands with poetry run, for example:
-   ```shell
-   poetry run ws hello
-   ```
+```shell
+python src/main/general_1.py
+```
 
 ### 2.6 Have fun!

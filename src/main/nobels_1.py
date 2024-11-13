@@ -1,0 +1,67 @@
+"""Stage 3.5: Ingest, retrieve, generate, return answer"""
+
+import logging
+
+from dotenv import load_dotenv
+from langchain_chroma import Chroma
+from langchain_community.document_loaders import WebBaseLoader
+from langchain_core.documents import Document
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import Runnable, RunnablePassthrough
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+from src.main.util.llm_factory import get_chat_model, get_embedding_model
+
+_logger = logging.getLogger(__name__)
+
+
+def create_chain() -> Runnable:
+    _logger.info("Creating chain...")
+    chat_model = get_chat_model()
+    embedding_model = get_embedding_model()
+
+    documents = WebBaseLoader(web_paths=["https://ww2.aip.org/aip/nobel-physics-resources-2024"]).load()
+
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    chunks = text_splitter.split_documents(documents)
+    vector_store = Chroma.from_documents(documents=chunks, embedding=embedding_model)
+
+    retriever = vector_store.as_retriever()
+
+    prompt = ChatPromptTemplate.from_messages([
+        ("human", """\
+    You are an assistant for question-answering tasks.
+    Use the following pieces of retrieved context to answer the question.
+    If you don't know the answer, just say that you don't know.
+    Use three sentences maximum and keep the answer concise.
+    Question: {question}
+    Context: {context}
+    Answer:"""),
+    ])
+
+    def format_chunks(docs: list[Document]):
+        return "\n\n".join(doc.page_content for doc in docs)
+
+    return ({"context": retriever | format_chunks, "question": RunnablePassthrough()}
+            | prompt
+            | chat_model
+            | StrOutputParser())
+
+
+def run():
+    _logger.info("Running app...")
+    rag_chain = create_chain()
+    while True:
+        question = input("Your question (or 'q' to quit): ")
+        if question.strip() == "q":
+            print("Bye!")
+            break
+        else:
+            response = rag_chain.invoke(question)
+            print(f"Assistant: {response}")
+
+
+if __name__ == "__main__":
+    load_dotenv()
+    run()
