@@ -9,6 +9,7 @@ from langchain_core.runnables import Runnable, RunnableLambda, RunnablePassthrou
 
 from src.main.book_1 import create_chain as create_book_chain
 from src.main.general_1 import create_chain as create_general_chain
+from src.main.util import chat_cli
 from src.main.util.llm_factory import get_chat_model
 
 _logger = logging.getLogger(__name__)
@@ -63,19 +64,6 @@ def create_chain() -> Runnable:
     return {"topic": router_chain, "question": RunnablePassthrough()} | RunnableLambda(route)
 
 
-def run():
-    _logger.info("Running app...")
-    rag_chain = create_chain()
-    while True:
-        question = input("Your question (or 'q' to quit): ")
-        if question.strip() == "q":
-            print("Bye!")
-            break
-        else:
-            response = rag_chain.invoke(question)
-            print(f"Assistant: {response}")
-
-
 if __name__ == "__main__":
     load_dotenv()
-    run()
+    chat_cli.run(chain=create_chain())

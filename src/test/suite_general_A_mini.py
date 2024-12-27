@@ -15,17 +15,19 @@ _logger = logging.getLogger(__name__)
 
 def create_test_cases(chain: Runnable) -> list[LLMTestCase]:
     question = "What is the main function of mitochondria in a cell?"
+    output = chain.invoke(question)
     tc1 = LLMTestCase(
         input=question,
         expected_output="The main function of mitochondria is to produce energy in the form of ATP through cellular respiration.",
-        actual_output=chain.invoke(question),
+        actual_output=output.get("answer"),
     )
 
-    question0 = "Calculate the value of the following limit: lim (x -> 0) [(sin(x) - x) / x^3]"
+    question = "Calculate the value of the following limit: lim (x -> 0) [(sin(x) - x) / x^3]"
+    output = chain.invoke(question)
     tc10 = LLMTestCase(
-        input=question0,
+        input=question,
         expected_output="-1/6",
-        actual_output=chain.invoke(question0),
+        actual_output=output.get("answer"),
     )
 
     return [tc1, tc10]

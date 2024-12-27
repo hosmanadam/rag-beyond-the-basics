@@ -11,6 +11,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import Runnable, RunnablePassthrough
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
+from src.main.util import chat_cli
 from src.main.util.llm_factory import get_chat_model, get_embedding_model
 
 _logger = logging.getLogger(__name__)
@@ -58,25 +59,15 @@ def create_chain() -> Runnable:
     def format_chunks(docs: list[Document]):
         return "\n\n".join(doc.page_content for doc in docs)
 
-    return ({"context": retriever | format_chunks, "question": RunnablePassthrough()}
+    return ({
+                "context": retriever | format_chunks,
+                "question": RunnablePassthrough()
+            }
             | prompt
             | chat_model
-            | StrOutputParser())
-
-
-def run():
-    _logger.info("Running app...")
-    rag_chain = create_chain()
-    while True:
-        question = input("Your question (or 'q' to quit): ")
-        if question.strip() == "q":
-            print("Bye!")
-            break
-        else:
-            response = rag_chain.invoke(question)
-            print(f"Assistant: {response}")
+            | {"answer": StrOutputParser()})
 
 
 if __name__ == "__main__":
     load_dotenv()
-    run()
+    chat_cli.run(chain=create_chain())

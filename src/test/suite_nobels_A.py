@@ -15,10 +15,11 @@ _logger = logging.getLogger(__name__)
 
 def create_test_cases(chain: Runnable) -> list[LLMTestCase]:
     question = "Who were awarded the 2024 Nobel Prize in Physics?"
+    output = chain.invoke(question)
     tc1 = LLMTestCase(
         input=question,
         expected_output="John J. Hopfield and Geoffrey E. Hinton",
-        actual_output=chain.invoke(question),
+        actual_output=output.get("answer"),
     )
 
     return [tc1]

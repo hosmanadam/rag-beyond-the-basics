@@ -25,8 +25,8 @@ def create_test_cases(chain: Runnable) -> list[LLMTestCase]:
     tc8 = LLMTestCase(
         input=question,
         expected_output="Mr. King warned Walter to be careful with how he used his spare time, as idleness could lead to temptation.",
-        actual_output=output["answer"],
-        retrieval_context=output["retrieved_context"],
+        actual_output=output.get("answer"),
+        retrieval_context=output.get("retrieved_context"),
     )
 
     question = "What was the outcome of Frank Hardy's trial?"
@@ -34,8 +34,8 @@ def create_test_cases(chain: Runnable) -> list[LLMTestCase]:
     tc9 = LLMTestCase(
         input=question,
         expected_output="Frank was sentenced to two years' imprisonment with hard labor for receiving stolen property.",
-        actual_output=output["answer"],
-        retrieval_context=output["retrieved_context"],
+        actual_output=output.get("answer"),
+        retrieval_context=output.get("retrieved_context"),
     )
 
     return [tc8, tc9]
