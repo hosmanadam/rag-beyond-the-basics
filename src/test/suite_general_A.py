@@ -7,7 +7,7 @@ from deepeval.test_case import LLMTestCase
 from dotenv import load_dotenv
 from langchain_core.runnables import Runnable
 
-from main import general_1 as app
+from src.main import book_1 as app
 from src.test.metrics import correctness_metric
 
 _logger = logging.getLogger(__name__)
