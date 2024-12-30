@@ -34,6 +34,24 @@ def run(module_name: str):
     chat_cli.run(chain)
 
 
+@ws.command(help="Run GUI")
+def gui():
+    import subprocess
+    from tabulate import tabulate
+
+    command = ["chainlit", "run", "src/main/util/chat_gui.py", "--watch"]
+    click.echo()
+    click.echo(tabulate(
+        tabular_data=[
+            ["Launching Chainlit web UI in a subprocess."],
+            [f"#ProTip: You can also debug if you set up your IDE to execute `{" ".join(command)}` as a Python process "
+             f"and run that instead."]
+        ],
+        tablefmt="rst"
+    ))
+    subprocess.run(command)
+
+
 @ws.command(help="Run evaluations specific to the current version")
 def evals():
     click.echo(
