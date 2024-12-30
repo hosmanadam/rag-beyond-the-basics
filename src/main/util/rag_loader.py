@@ -31,7 +31,7 @@ _logger.info(f"Loaded modules: {_module_names}")
 
 
 @cache
-def get(module_name: str) -> Runnable:
+def load_chain(module_name: str) -> Runnable:
     if module_name in _modules:
         return _modules[module_name].create_chain()
     else:

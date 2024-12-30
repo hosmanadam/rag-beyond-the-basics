@@ -30,7 +30,7 @@ def hello():
 @ws.command(help="Run CLI chat using the specified RAG module")
 @click.argument("module-name", type=click.Choice(rag_loader.get_names()), required=True)
 def run(module_name: str):
-    chain = rag_loader.get(module_name)
+    chain = rag_loader.load_chain(module_name)
     chat_cli.run(chain)
 
 
