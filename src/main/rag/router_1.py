@@ -7,8 +7,8 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import Runnable, RunnableLambda, RunnablePassthrough
 
-from src.main.book_1 import create_chain as create_book_chain
-from src.main.general_1 import create_chain as create_general_chain
+from src.main.rag.book_1 import create_chain as create_book_chain
+from src.main.rag.general_1 import create_chain as create_general_chain
 from src.main.util import chat_cli
 from src.main.util.llm_factory import get_chat_model
 

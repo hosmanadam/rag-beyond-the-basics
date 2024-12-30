@@ -7,7 +7,7 @@ from deepeval.test_case import LLMTestCase
 from dotenv import load_dotenv
 from langchain_core.runnables import Runnable
 
-from src.main import book_3 as app
+from src.main.rag import book_3 as app
 from src.test.metrics import (
     contextual_precision_metric,
     contextual_recall_metric,

@@ -2,7 +2,7 @@ import warnings
 
 import click
 
-from src.main.util import git
+from src.main.util import chat_cli, git, rag_loader
 
 
 @click.group(
@@ -27,16 +27,18 @@ def hello():
         click.echo("The CLI works, but we can't import dependencies :/", err=True)
 
 
-@ws.command(help="Run the RAG script")
-def run():
-    click.echo(
-        "Running like this is not currently supported, please execute the python scripts from the repo root instead.")
+@ws.command(help="Run CLI chat using the specified RAG module")
+@click.argument("module-name", type=click.Choice(rag_loader.get_names()), required=True)
+def run(module_name: str):
+    chain = rag_loader.get(module_name)
+    chat_cli.run(chain)
 
 
 @ws.command(help="Run evaluations specific to the current version")
 def evals():
     click.echo(
-        "Evaluating like this is not currently supported, please execute the python scripts from the repo root instead.")
+        "Evaluating like this is not currently supported, please execute the python scripts from the repo root instead."
+    )
 
 
 @ws.command(help="Print your current active version")
