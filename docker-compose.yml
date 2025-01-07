@@ -1,0 +1,12 @@
+services:
+  chainlit-gui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    command: chainlit run src/main/util/chat_gui.py --watch --host=0.0.0.0 --port=8000
