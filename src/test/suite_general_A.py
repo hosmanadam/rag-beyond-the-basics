@@ -3,6 +3,7 @@
 import logging
 
 from deepeval import evaluate
+from deepeval.evaluate import AsyncConfig, DisplayConfig
 from deepeval.test_case import LLMTestCase
 from dotenv import load_dotenv
 from langchain_core.runnables import Runnable
@@ -105,9 +106,8 @@ def evaluate_test_cases():
     evaluate(
         test_cases=test_cases,
         metrics=[correctness_metric],
-        show_indicator=False,
-        max_concurrent=1,
-        run_async=False,
+        async_config=AsyncConfig(max_concurrent=1, run_async=False),
+        display_config=DisplayConfig(show_indicator=False),
     )
 
 

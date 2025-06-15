@@ -1,5 +1,7 @@
 .idea
 .env
-poetry.lock
-.deepeval-cache.json
+.deepeval
 temp_test_run_data.json
+.DS_Store
+__pycache__
+*.pyc
