@@ -1,0 +1,27 @@
+site_name: "RAG: Beyond the Basics"
+repo_url: https://github.com/hosmanadam/rag-beyond-the-basics
+dev_addr: localhost:8001
+docs_dir: docs-src # Default is /docs, but GitHub forces us to use that for the Pages build
+site_dir: docs # GitHub Pages will be served from here
+theme:
+  name: material
+  features:
+    - navigation.indexes
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+nav:
+  - Home: index.md
+  - Setup:
+      - Deep Diver (Native): setup/deep-diver-native.md
+      - Deep Diver (Containerized): setup/deep-diver-containerized.md
+      - Swimmer: setup/swimmer.md
+      - Lifeguard: setup/lifeguard.md

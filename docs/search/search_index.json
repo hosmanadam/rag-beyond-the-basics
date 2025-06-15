@@ -1,0 +1,243 @@
+{
+  "config": {
+    "lang": [
+      "en"
+    ],
+    "separator": "[\\s\\-]+",
+    "pipeline": [
+      "stopWordFilter"
+    ]
+  },
+  "docs": [
+    {
+      "location": "",
+      "title": "RAG Beyond The Basics",
+      "text": "<p>Welcome to the hands-on portion of the RAG workshop! This repository contains all the code and examples we'll be working with during the session.</p> <p>Please choose your participation level below and follow the corresponding setup instructions.</p>"
+    },
+    {
+      "location": "#deep-diver",
+      "title": "Deep Diver",
+      "text": "<p>Bring your laptop with development environment installed. Browse, run, debug, and tweak code during the workshop.</p> <ul> <li>Prerequisites: Development experience, Python/Docker familiarity, laptop, prep time</li> <li>Setup: Native (full Python environment)   or Containerized (Docker-based)</li> <li>Note: We can't resolve individual setup issues during the workshop</li> </ul>"
+    },
+    {
+      "location": "#swimmer",
+      "title": "Swimmer",
+      "text": "<p>Bring laptop with web browser. Access observability platform and participate in debugging exercises.</p> <ul> <li>Prerequisites: Laptop, investigative mind</li> <li>Setup: Swimmer</li> </ul>"
+    },
+    {
+      "location": "#lifeguard",
+      "title": "Lifeguard",
+      "text": "<p>Observe the hands-on exercises and optionally pair up with someone on a laptop.</p> <ul> <li>Prerequisites: Patience during hands-on exercises (if not pairing)</li> <li>Setup: Lifeguard</li> </ul> <p>Having issues? Please open a GitHub issue if you encounter any problems.</p>"
+    },
+    {
+      "location": "setup/deep-diver-containerized/",
+      "title": "Deep Diver Setup: Containerized",
+      "text": "<p>For developers who want to run the code with minimal local dependencies using containers.</p>"
+    },
+    {
+      "location": "setup/deep-diver-containerized/#prerequisites",
+      "title": "Prerequisites",
+      "text": "<ul> <li>Development experience with basic command line and containerization</li> <li>Container runtime (Docker, Podman, Colima, etc.) installed and running</li> <li>Git installed</li> </ul>"
+    },
+    {
+      "location": "setup/deep-diver-containerized/#before-the-workshop",
+      "title": "Before the Workshop",
+      "text": ""
+    },
+    {
+      "location": "setup/deep-diver-containerized/#1-clone-and-navigate-to-the-repository",
+      "title": "1. Clone and navigate to the repository",
+      "text": "<pre><code>git clone https://github.com/hosmanadam/rag-beyond-the-basics.git\ncd rag-beyond-the-basics\n</code></pre>"
+    },
+    {
+      "location": "setup/deep-diver-containerized/#2-prepare-environment-file",
+      "title": "2. Prepare environment file",
+      "text": "<pre><code>cp .env.example .env\n</code></pre>"
+    },
+    {
+      "location": "setup/deep-diver-containerized/#3-test-the-setup",
+      "title": "3. Test the setup",
+      "text": "<pre><code>docker-compose up\n</code></pre> <p>The container should build, but fail with an error about missing environment variables - this is correct behavior unless you've added your own API keys. You'll add the workshop API keys later.</p>"
+    },
+    {
+      "location": "setup/deep-diver-containerized/#4-stop-the-container",
+      "title": "4. Stop the container",
+      "text": "<pre><code>docker-compose down\n</code></pre>"
+    },
+    {
+      "location": "setup/deep-diver-containerized/#5-optional-set-up-your-own-langsmith-account",
+      "title": "5. Optional: Set up your own LangSmith account",
+      "text": "<p>If you want to debug your own traces instead of using shared workshop access:</p> <ol> <li>Sign up for a free account at https://smith.langchain.com</li> <li>Get your API key from the account settings</li> <li>Add <code>LANGCHAIN_API_KEY</code> to your <code>.env</code> file</li> </ol>"
+    },
+    {
+      "location": "setup/deep-diver-containerized/#during-the-workshop",
+      "title": "During the Workshop",
+      "text": ""
+    },
+    {
+      "location": "setup/deep-diver-containerized/#1-get-latest-code",
+      "title": "1. Get latest code",
+      "text": "<pre><code>git pull\n</code></pre>"
+    },
+    {
+      "location": "setup/deep-diver-containerized/#2-add-api-keys-provided-during-workshop",
+      "title": "2. Add API keys (provided during workshop)",
+      "text": "<p>Edit <code>.env</code> file with the API keys we provide.</p>"
+    },
+    {
+      "location": "setup/deep-diver-containerized/#3-start-the-application",
+      "title": "3. Start the application",
+      "text": "<pre><code>docker-compose up\n</code></pre>"
+    },
+    {
+      "location": "setup/deep-diver-containerized/#4-access-the-application",
+      "title": "4. Access the application",
+      "text": "<p>The application will start and print a URL in the console. Click the link to access the Chainlit interface.</p>"
+    },
+    {
+      "location": "setup/deep-diver-containerized/#debugging-and-observability",
+      "title": "Debugging and Observability",
+      "text": "<p>You'll participate in debugging exercises using LangSmith:</p> <ul> <li>Shared access: We'll provide credentials to view workshop traces</li> <li>Your own traces: If you set up your own account above, you'll see your own traces</li> </ul> <p>LangSmith access: https://smith.langchain.com</p>"
+    },
+    {
+      "location": "setup/deep-diver-containerized/#after-the-workshop",
+      "title": "After the Workshop",
+      "text": ""
+    },
+    {
+      "location": "setup/deep-diver-containerized/#cleanup",
+      "title": "Cleanup",
+      "text": "<pre><code># Stop and remove containers\ndocker-compose down\n\n# Remove containers and image\nexport IMAGE=\"rag-beyond-the-basics-chainlit-gui\"\ndocker rm -f $(docker ps -a -q --filter \"ancestor=$IMAGE\") || echo \"No containers are using $IMAGE\"\ndocker rmi -f $IMAGE\n\n# Delete the entire repository (removes all dependencies)\ncd ..\nrm -rf rag-beyond-the-basics\n</code></pre> <p>Ready to dive deep! \ud83d\udc0b</p>"
+    },
+    {
+      "location": "setup/deep-diver-native/",
+      "title": "Deep Diver Setup: Native",
+      "text": "<p>For experienced developers who want full control and the ability to browse, run, debug, and tweak the code.</p>"
+    },
+    {
+      "location": "setup/deep-diver-native/#prerequisites",
+      "title": "Prerequisites",
+      "text": "<ul> <li>Development experience with basic command line and version control</li> <li>Python 3.12.x installed and accessible via <code>python</code> command</li> <li>Git installed</li> <li>Your preferred development environment (IDE, editor, shell, etc.)</li> </ul>"
+    },
+    {
+      "location": "setup/deep-diver-native/#setup",
+      "title": "Setup",
+      "text": ""
+    },
+    {
+      "location": "setup/deep-diver-native/#1-clone-and-navigate-to-the-repository",
+      "title": "1. Clone and navigate to the repository",
+      "text": "<pre><code>git clone https://github.com/hosmanadam/rag-beyond-the-basics.git\ncd rag-beyond-the-basics\n</code></pre>"
+    },
+    {
+      "location": "setup/deep-diver-native/#2-verify-python-version",
+      "title": "2. Verify Python version",
+      "text": "<pre><code>python --version\n</code></pre> <p>Should show <code>Python 3.12.x</code>. If you only have <code>python3</code>, feel free to use that throughout.</p>"
+    },
+    {
+      "location": "setup/deep-diver-native/#3-set-up-python-dependencies",
+      "title": "3. Set up Python dependencies",
+      "text": "<p>Choose your preferred approach:</p> <p>Option A: Using Poetry (if you have it)</p> <pre><code>poetry install &amp;&amp; poetry shell\n</code></pre> <p>Option B: Using venv</p> <pre><code>python -m venv .venv\nsource .venv/bin/activate  # On Windows: .venv\\Scripts\\activate\npython -m pip install -e .\n</code></pre>"
+    },
+    {
+      "location": "setup/deep-diver-native/#4-prepare-environment-variables",
+      "title": "4. Prepare environment variables",
+      "text": "<pre><code>cp .env.example .env\n</code></pre>"
+    },
+    {
+      "location": "setup/deep-diver-native/#5-verify-setup",
+      "title": "5. Verify setup",
+      "text": "<pre><code>ws hello\n</code></pre> <p>This should print a welcome message and confirm all dependencies are working.</p>"
+    },
+    {
+      "location": "setup/deep-diver-native/#6-optional-set-up-your-own-langsmith-account",
+      "title": "6. Optional: Set up your own LangSmith account",
+      "text": "<p>If you want to debug your own traces instead of using shared workshop access:</p> <ol> <li>Sign up for a free account at https://smith.langchain.com</li> <li>Get your API key from the account settings</li> <li>Add <code>LANGCHAIN_API_KEY</code> to your <code>.env</code> file</li> </ol>"
+    },
+    {
+      "location": "setup/deep-diver-native/#during-the-workshop",
+      "title": "During the Workshop",
+      "text": ""
+    },
+    {
+      "location": "setup/deep-diver-native/#1-get-latest-code",
+      "title": "1. Get latest code",
+      "text": "<pre><code>git pull\n</code></pre>"
+    },
+    {
+      "location": "setup/deep-diver-native/#2-activate-your-environment-if-not-using-an-ide-that-handles-this",
+      "title": "2. Activate your environment (if not using an IDE that handles this)",
+      "text": "<p>Poetry: <code>poetry shell</code> venv: <code>source .venv/bin/activate</code></p>"
+    },
+    {
+      "location": "setup/deep-diver-native/#3-update-dependencies",
+      "title": "3. Update dependencies",
+      "text": "<p><code>poetry install</code> or <code>python -m pip install -e .</code></p>"
+    },
+    {
+      "location": "setup/deep-diver-native/#4-add-api-keys-to-env-file-provided-during-workshop",
+      "title": "4. Add API keys to <code>.env</code> file (provided during workshop)",
+      "text": ""
+    },
+    {
+      "location": "setup/deep-diver-native/#5-run-the-application",
+      "title": "5. Run the application",
+      "text": "<pre><code>ws gui\n</code></pre> <p>This opens the Chainlit interface in your browser.</p>"
+    },
+    {
+      "location": "setup/deep-diver-native/#debugging-and-observability",
+      "title": "Debugging and Observability",
+      "text": "<p>You'll participate in debugging exercises using LangSmith:</p> <ul> <li>Shared access: We'll provide credentials to view workshop traces</li> <li>Your own traces: If you set up your own account above, you'll see your own traces</li> </ul> <p>LangSmith access: https://smith.langchain.com</p>"
+    },
+    {
+      "location": "setup/deep-diver-native/#troubleshooting",
+      "title": "Troubleshooting",
+      "text": "<ul> <li>Python version issues: We need 3.12.x specifically for compatibility with all dependencies</li> <li>Virtual environment not active: Make sure your terminal prompt shows <code>(.venv)</code> or similar</li> <li>Permission errors with <code>ws</code> command: Try <code>poetry run ws hello</code> instead (if using Poetry)</li> <li>Import errors: Run <code>python -m pip install -e .</code> again</li> </ul>"
+    },
+    {
+      "location": "setup/deep-diver-native/#after-the-workshop",
+      "title": "After the Workshop",
+      "text": ""
+    },
+    {
+      "location": "setup/deep-diver-native/#cleanup",
+      "title": "Cleanup",
+      "text": "<p>If you no longer need this environment:</p> <pre><code># Delete the entire repository (removes all dependencies)\ncd ..\nrm -rf rag-beyond-the-basics\n</code></pre> <p>This removes everything - the code, virtual environment, and all dependencies.</p> <p>Ready to dive deep! \ud83e\udd3f</p>"
+    },
+    {
+      "location": "setup/lifeguard/",
+      "title": "Lifeguard Setup",
+      "text": "<p>Watch, learn, and optionally pair up with someone on a laptop.</p>"
+    },
+    {
+      "location": "setup/lifeguard/#prerequisites",
+      "title": "Prerequisites",
+      "text": "<ul> <li>Curiosity about RAG systems</li> <li>Patience during hands-on exercises (if not pairing)</li> </ul>"
+    },
+    {
+      "location": "setup/lifeguard/#during-the-workshop",
+      "title": "During the Workshop",
+      "text": "<ol> <li>Watch demonstrations of RAG architecture building and live coding</li> <li>Observe debugging exercises using observability tools</li> <li>Ask questions during discussions</li> <li>Optional: Pair with a deep diver or swimmer for hands-on participation</li> </ol> <p>Ready to keep watch! \ud83c\udfd6\ufe0f</p>"
+    },
+    {
+      "location": "setup/swimmer/",
+      "title": "Swimmer Setup",
+      "text": "<p>Access observability platform and take part in debugging exercises.</p>"
+    },
+    {
+      "location": "setup/swimmer/#prerequisites",
+      "title": "Prerequisites",
+      "text": "<ul> <li>Laptop with web browser</li> <li>Investigative mind</li> </ul>"
+    },
+    {
+      "location": "setup/swimmer/#during-the-workshop",
+      "title": "During the Workshop",
+      "text": "<ol> <li>Receive access credentials for LangSmith observability platform</li> <li>Follow debugging exercises - analyze traces, retrieval results, and LLM behavior</li> <li>Optional: Pair with a deep diver to see code execution</li> </ol>"
+    },
+    {
+      "location": "setup/swimmer/#debugging-and-observability",
+      "title": "Debugging and Observability",
+      "text": "<p>You'll participate in debugging exercises using LangSmith:</p> <ul> <li>Shared access: We'll provide credentials to view workshop traces</li> <li>Your own traces (optional): Sign up for your own LangSmith account and add <code>LANGCHAIN_API_KEY</code> to your environment</li> </ul> <p>LangSmith access: https://smith.langchain.com</p> <p>Ready to swim! \ud83c\udfca\u200d\u2640\ufe0f</p>"
+    }
+  ]
+}
