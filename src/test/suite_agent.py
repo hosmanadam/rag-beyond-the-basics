@@ -31,8 +31,7 @@ from deepeval.test_case import LLMTestCase
 from dotenv import load_dotenv
 from langchain_core.runnables import Runnable
 
-# from src.main.rag import agent_1 as app
-from src.main.rag import book_6 as app
+from src.main.rag import agent_1 as app
 from src.main.util.responses import get_response
 from src.test.metrics import correctness_metric
 
