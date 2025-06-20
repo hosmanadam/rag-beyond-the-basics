@@ -36,21 +36,30 @@ def _get_chunks() -> list[Document]:
 
     contextualizer_prompt = ChatPromptTemplate.from_messages([
         ("human", """\
-    <document> 
-    {stuff} 
-    </document> 
-    Here is the chunk we want to situate within the whole document 
-    <chunk> 
-    {chunk} 
-    </chunk> 
-    Please give a short succinct context to situate this chunk within the overall document for the purposes of \
-    improving search retrieval of the chunk. Answer only with the succinct context and nothing else."""),
+<document> 
+{stuff} 
+</document> 
+Here is the chunk we want to situate within the whole document 
+<chunk> 
+{chunk} 
+</chunk> 
+Please give a short succinct context to situate this chunk within the overall document for the purposes of \
+improving search retrieval of the chunk. Answer only with the succinct context and nothing else."""),
     ])
 
     contextualizer_chain = contextualizer_prompt | get_chat_model() | StrOutputParser()
     contextualized_chunks = [
         Document(
-            page_content=f"{contextualizer_chain.invoke({"chunk": chunk.page_content, "stuff": stuff})} {chunk.page_content}",
+            page_content=f"""
+<chunk>
+<context>
+{contextualizer_chain.invoke({"chunk": chunk.page_content, "stuff": stuff})}
+</context>
+<content>
+{chunk.page_content}
+</content>
+</chunk>
+""",
             metadata=chunk.metadata,
         )
         for chunk in raw_chunks
