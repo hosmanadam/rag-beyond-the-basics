@@ -23,6 +23,7 @@ rank-bm25 = "^0.2.2"
 chainlit = "^2.5.5"
 mkdocs = "^1.6.1"
 mkdocs-material = "^9.6.14"
+langchain-tavily = "^0.2.3"
 
 [build-system]
 requires = ["poetry-core"]

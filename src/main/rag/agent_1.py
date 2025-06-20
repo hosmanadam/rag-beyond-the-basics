@@ -2,26 +2,45 @@ from typing import Callable
 
 from langchain_core.messages import SystemMessage, ToolMessage
 from langchain_core.runnables import Runnable
+from langchain_tavily import TavilySearch
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.constants import END, START
 from langgraph.graph import MessagesState, StateGraph
 from langgraph.graph.graph import CompiledGraph
+from langgraph.prebuilt import ToolNode
 
 from src.main.util.llm_factory import get_chat_model
 
+TOOL_NODE = "tools"
+
 # TOOLS ################################################################################################################
 
-# TODO
+tavily = TavilySearch(
+    max_results=5,
+    topic="general",
+    # include_answer=False,
+    # include_raw_content=False,
+    # include_images=False,
+    # include_image_descriptions=False,
+    # search_depth="basic",
+    # time_range="day",
+    # include_domains=None,
+    # exclude_domains=None
+)
 
+# TODO: HybridRetriever
+
+tools = [tavily]
 
 # GRAPH ################################################################################################################
 
 SYSTEM_PROMPT = """\
-You are a helpful assistant. You always prefix every response with "ARPA: "
+You are a helpful assistant.
+You always prefix every response with "ARPA: ".
+When you use information obtained from the web, you always reference the URL at the end of your response. 
 """  # TODO
 
-tools = []  # TODO
-model = get_chat_model()
+model = get_chat_model().bind_tools(tools)
 
 
 def node_llm(state: MessagesState) -> MessagesState:
@@ -49,17 +68,23 @@ def create_tool_call_node(tool_function: Callable) -> Callable[[MessagesState], 
     return node
 
 
+def should_continue(state: MessagesState):
+    messages = state["messages"]
+    last_message = messages[-1]
+    if last_message.tool_calls:
+        return TOOL_NODE
+    return END
+
+
 def create_graph() -> CompiledGraph:
     graph = StateGraph(MessagesState)
 
     graph.add_node(node_llm.__name__, node_llm)
-    for tool in tools:
-        graph.add_node(tool.__name__, create_tool_call_node(tool))
+    graph.add_node(TOOL_NODE, ToolNode(tools))
 
     graph.add_edge(START, node_llm.__name__)
-    graph.add_conditional_edges(node_llm.__name__, edge_agent_choice)
-    for tool in tools:
-        graph.add_edge(tool.__name__, node_llm.__name__)
+    graph.add_conditional_edges(node_llm.__name__, should_continue, [TOOL_NODE, END])
+    graph.add_edge(TOOL_NODE, node_llm.__name__)
 
     return graph.compile(checkpointer=MemorySaver())
 
