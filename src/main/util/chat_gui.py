@@ -2,10 +2,10 @@ import logging
 
 import chainlit as cl
 from chainlit.input_widget import Select
-from langchain_core.messages import HumanMessage
 
 from src.main.rag import general_1
 from src.main.util import rag_loader
+from src.main.util.responses import get_response
 
 _logger = logging.getLogger(__name__)
 
@@ -17,16 +17,7 @@ rag_chain = rag_loader.load_chain(rag_module_name)
 @cl.on_message
 async def on_message(message: cl.Message):
     _logger.info(f"Message from user: {message.content}")
-    try:
-        # Assume simple chain
-        response = rag_chain.invoke(message.content)["answer"]
-    except ValueError:
-        # Turns out it's a graph, needs to be called differently # HACK
-        end_state = rag_chain.invoke(
-            input={"messages": [HumanMessage(message.content)]},
-            config={"configurable": {"thread_id": cl.context.session.id}}
-        )
-        response = end_state["messages"][-1].content
+    response = get_response(message.content, rag_chain)
     await cl.Message(response).send()
 
 
